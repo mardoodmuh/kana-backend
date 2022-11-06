@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Try</title>
+  </head>
+  <body>
+    hello world
+    {% for vowel in vowels %}
+    <p>{{vowel.vowel}}: {{vowel.hiragana}}, {{vowel.katakana}}</p>
+    <audio controls id="player">
+      {% if vowel.sound %}
+      <source src="{{vowel.sound.url}}" type="audio/wav">
+      Your browser does not support the audio element.
+      {% endif %}
+    </audio>
+    {% endfor %}
+  </body>
+</html>
