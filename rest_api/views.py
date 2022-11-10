@@ -9,40 +9,40 @@ from rest_framework import status, viewsets
 # Create your views here.
 
 
-@api_view(['GET', 'POST'])
-def hiragana(request):
-    hiragana = Hiragana.objects.all()
-    if request.method == 'GET':
-        serializer = HiraganaSerializer(hiragana, many=True)
-
-    elif request.method == "POST":
-        serializer = HiraganaSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    return Response(serializer.data)
-
-
 class VowelsView(viewsets.ModelViewSet):
     queryset = Vowel.objects.all()
-    many = True
     serializer_class = VowelSerializer
+
+    def filter_queryset(self, queryset):
+        queryset = super(VowelsView, self).filter_queryset(queryset)
+        return queryset.order_by("vowel")
 
 
 class HiraganaView(viewsets.ModelViewSet):
     queryset = Hiragana.objects.all()
     serializer_class = HiraganaSerializer
 
+    def filter_queryset(self, queryset):
+        queryset = super(HiraganaView, self).filter_queryset(queryset)
+        return queryset.order_by("hiragana")
+
 
 class KatakanaView(viewsets.ModelViewSet):
     queryset = Katakana.objects.all()
     serializer_class = KatakanaSerializer
 
+    def filter_queryset(self, queryset):
+        queryset = super(KatakanaView, self).filter_queryset(queryset)
+        return queryset.order_by("katakana")
+
 
 class ExampleView(viewsets.ModelViewSet):
     queryset = Example.objects.all()
     serializer_class = ExampleSerializer
+
+    def filter_queryset(self, queryset):
+        queryset = super(ExampleView, self).filter_queryset(queryset)
+        return queryset.order_by("word")
 
 
 def html_view(request):
