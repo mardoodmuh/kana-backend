@@ -1,28 +1,46 @@
 from rest_framework import serializers
 from .models import *
 
+
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Example 
+        model = Example
         fields = '__all__'
 
+
 class HiraganaSerializer(serializers.ModelSerializer):
-     
+    ex = ExampleSerializer(many=True, read_only=False)
+    sound = serializers.FileField(source='vowel.sound')
+    vowel = serializers.CharField(source='vowel.vowel')
+
     class Meta:
         model = Hiragana
-        fields = '__all__' 
+        fields = '__all__'
+
 
 class KatakanaSerializer(serializers.ModelSerializer):
+    ex = ExampleSerializer(many=True, read_only=False)
+    sound = serializers.FileField(source='vowel.sound')
+    vowel = serializers.CharField(source='vowel.vowel')
 
     class Meta:
-        model = Katakana 
-        fields = ('katakana',)
+        model = Katakana
+        fields = '__all__'
 
-class VowelSerializer(serializers.HyperlinkedModelSerializer):
+
+class VowelSerializer(serializers.ModelSerializer):
     hiragana_char = serializers.CharField(source='hiragana.hiragana')
     katakana_char = serializers.CharField(source='katakana.katakana')
+    # hiragana = HiraganaSerializer(many=True)
 
     class Meta:
 
-        model = Vowel 
-        fields = ('vowel', 'hiragana_char', 'katakana_char', 'sound' ) 
+        model = Vowel
+        fields = (
+            'vowel',
+            'hiragana_char',
+            'katakana_char',
+            'sound',
+            'hiragana',
+        )
+        depth = 5

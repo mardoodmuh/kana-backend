@@ -6,8 +6,9 @@ router = routers.DefaultRouter()
 router.register('vowels', views.VowelsView)
 router.register('hiragana', views.HiraganaView)
 router.register('katakana', views.KatakanaView)
+router.register('examples', views.ExampleView)
 
 urlpatterns = [
-        path('', include(router.urls)),
-        path('home/', views.html_view)
-    ]
+    path('', include(router.urls)),
+    path('home/', views.html_view)
+]
