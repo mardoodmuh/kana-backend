@@ -22,7 +22,7 @@ class Hiragana(models.Model):
         (DAKUON, ('dakuon')),
         (HANDAKOUN, ('handakuon')),
         (YOUON, ('youon')),
-        (SOKUON, ('sokuons')),
+        (SOKUON, ('sokuon')),
     ]
     kana_type = models.CharField(
         max_length=32,
@@ -36,8 +36,26 @@ class Hiragana(models.Model):
 
 
 class Katakana(models.Model):
+    GOJUUON = 'gojuuon'
+    DAKUON = 'dakuon'
+    HANDAKOUN = 'handakuon'
+    YOUON = "youon"
+    SOKUON = "sokuon"
     katakana = models.CharField(max_length=3)
     ex = models.ManyToManyField(Example, null=True, blank=True, default=None)
+    TYPE = [
+        (GOJUUON, ('gojuuon')),
+        (DAKUON, ('dakuon')),
+        (HANDAKOUN, ('handakuon')),
+        (YOUON, ('youon')),
+        (SOKUON, ('sokuon')),
+    ]
+    kana_type = models.CharField(
+        max_length=32,
+        choices=TYPE,
+        null=True,
+        default=GOJUUON,
+    )
 
     def __str__(self):
         return self.katakana
