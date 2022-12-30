@@ -8,47 +8,34 @@ class Example(models.Model):
     def __str__(self):
         return self.word
 
-
 class Hiragana(models.Model):
-    GOJUUON = 'gojuuon'
-    DAKUON = 'dakuon'
-    HANDAKOUN = 'handakuon'
-    YOUON = "youon"
-    SOKUON = "sokuon"
     hiragana = models.CharField(max_length=3)
-    ex = models.ManyToManyField(Example, null=True, blank=True, default=None)
-    TYPE = [
-        (GOJUUON, ('gojuuon')),
-        (DAKUON, ('dakuon')),
-        (HANDAKOUN, ('handakuon')),
-        (YOUON, ('youon')),
-        (SOKUON, ('sokuon')),
-    ]
-    kana_type = models.CharField(
-        max_length=32,
-        choices=TYPE,
-        null=True,
-        default=None,
-    )
+    ex = models.ManyToManyField(Example, blank=True, default=None) 
 
     def __str__(self):
         return self.hiragana
 
 
 class Katakana(models.Model):
-    GOJUUON = 'gojuuon'
-    DAKUON = 'dakuon'
-    HANDAKOUN = 'handakuon'
-    YOUON = "youon"
-    SOKUON = "sokuon"
     katakana = models.CharField(max_length=3)
-    ex = models.ManyToManyField(Example, null=True, blank=True, default=None)
+    ex = models.ManyToManyField(Example, blank=True, default=None)
+    # kanatype = models.ForeignKey(KanaType, blank=True, default=1, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.katakana
+
+class KanaType(models.Model):
+    GOJUUON = 'Gojuuon'
+    DAKUON = 'Dakuon'
+    HANDAKOUN = 'Handakuon'
+    YOUON = "Youon"
+    SOKUON = "Sokuon"
     TYPE = [
-        (GOJUUON, ('gojuuon')),
-        (DAKUON, ('dakuon')),
-        (HANDAKOUN, ('handakuon')),
-        (YOUON, ('youon')),
-        (SOKUON, ('sokuon')),
+        (GOJUUON, ('Gojuuon')),
+        (DAKUON, ('Dakuon')),
+        (HANDAKOUN, ('Handakuon')),
+        (YOUON, ('Youon')),
+        (SOKUON, ('Sokuon')),
     ]
     kana_type = models.CharField(
         max_length=32,
@@ -56,10 +43,13 @@ class Katakana(models.Model):
         null=True,
         default=GOJUUON,
     )
+    hiragana = models.ManyToManyField(
+        Hiragana, default=None)
+    katakana = models.ManyToManyField(
+        Katakana, default=None) 
 
     def __str__(self):
-        return self.katakana
-
+        return self.kana_type
 
 class Vowel(models.Model):
     vowel = models.CharField(max_length=3)

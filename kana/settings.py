@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure--%9-vf=wm(lzm8_a+v9t_tuyg+tj-%akg-pi3kdv##k!h=o^h^
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://*.mardood.tk','http://127.0.0.1']
 
 
 # Application definition

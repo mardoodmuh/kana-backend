@@ -10,6 +10,7 @@ from rest_framework import status, viewsets
 
 
 class VowelsView(viewsets.ModelViewSet):
+      
     queryset = Vowel.objects.all()
     serializer_class = VowelSerializer
 
@@ -44,6 +45,13 @@ class ExampleView(viewsets.ModelViewSet):
         queryset = super(ExampleView, self).filter_queryset(queryset)
         return queryset.order_by("word")
 
+class KanaTypeView(viewsets.ModelViewSet):
+    queryset = KanaType.objects.all()
+    serializer_class = KanaTypeSerializer
+
+    def filter_queryset(self, queryset):
+        queryset = super(KanaTypeView, self).filter_queryset(queryset)
+        return queryset.order_by("id")
 
 def html_view(request):
     vowels = Vowel.objects.all()

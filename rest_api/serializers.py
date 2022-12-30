@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import *
-
-
+ 
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Example
@@ -10,6 +9,7 @@ class ExampleSerializer(serializers.ModelSerializer):
 
 class HiraganaSerializer(serializers.ModelSerializer):
     ex = ExampleSerializer(many=True, read_only=False)
+    #kanatype = KanaTypeSerializer(many=False, read_only=False)
     sound = serializers.FileField(source='vowel.sound')
     vowel = serializers.CharField(source='vowel.vowel')
 
@@ -44,3 +44,17 @@ class VowelSerializer(serializers.ModelSerializer):
             'hiragana',
         )
         depth = 5
+
+class KanaTypeSerializer(serializers.ModelSerializer):
+    hiragana = serializers.SerializerMethodField()
+    katakana = KatakanaSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = KanaType
+        fields = ('id','kana_type', 'hiragana','katakana')
+
+    def get_hiragana(self, instance):
+        hiragana = instance.hiragana.all().order_by('hiragana')
+        return HiraganaSerializer(hiragana, many=True, read_only=True).data
+
+
