@@ -1,4 +1,5 @@
 from django.db import models
+import romkan
 
 
 class Example(models.Model):
@@ -7,6 +8,9 @@ class Example(models.Model):
 
     def __str__(self):
         return self.word
+
+    def romaji(self):
+        return romkan.to_roma(self.word).upper().replace("'","")
 
 class Hiragana(models.Model):
     hiragana = models.CharField(max_length=3)
@@ -19,7 +23,6 @@ class Hiragana(models.Model):
 class Katakana(models.Model):
     katakana = models.CharField(max_length=3)
     ex = models.ManyToManyField(Example, blank=True, default=None)
-    # kanatype = models.ForeignKey(KanaType, blank=True, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.katakana

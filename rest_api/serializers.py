@@ -4,8 +4,7 @@ from .models import *
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Example
-        fields = '__all__'
-
+        fields = ('id', 'word', 'meaning', 'romaji') 
 
 class HiraganaSerializer(serializers.ModelSerializer):
     ex = ExampleSerializer(many=True, read_only=False)
