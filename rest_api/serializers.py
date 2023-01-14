@@ -4,11 +4,10 @@ from .models import *
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Example
-        fields = ('id', 'word', 'meaning', 'romaji') 
+        fields = ('id', 'word', 'meaning_capitalized', 'meaning', 'romaji') 
 
 class HiraganaSerializer(serializers.ModelSerializer):
     ex = ExampleSerializer(many=True, read_only=False)
-    #kanatype = KanaTypeSerializer(many=False, read_only=False)
     sound = serializers.FileField(source='vowel.sound')
     vowel = serializers.CharField(source='vowel.vowel')
 
@@ -30,7 +29,6 @@ class KatakanaSerializer(serializers.ModelSerializer):
 class VowelSerializer(serializers.ModelSerializer):
     hiragana_char = serializers.CharField(source='hiragana.hiragana')
     katakana_char = serializers.CharField(source='katakana.katakana')
-    # hiragana = HiraganaSerializer(many=True)
 
     class Meta:
 
@@ -47,13 +45,11 @@ class VowelSerializer(serializers.ModelSerializer):
 class KanaTypeSerializer(serializers.ModelSerializer):
     hiragana = serializers.SerializerMethodField()
     katakana = KatakanaSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = KanaType
-        fields = ('id','kana_type', 'hiragana','katakana')
-
+    
     def get_hiragana(self, instance):
         hiragana = instance.hiragana.all().order_by('hiragana')
         return HiraganaSerializer(hiragana, many=True, read_only=True).data
 
-
+    class Meta:
+        model = KanaType
+        fields = ('id','kana_type', 'hiragana','katakana')

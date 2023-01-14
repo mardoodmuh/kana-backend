@@ -10,8 +10,11 @@ class Example(models.Model):
         return self.word
 
     def romaji(self):
-        romaji = romkan.to_roma(self.word).upper().replace("'","")
+        romaji = romkan.to_roma(self.word).capitalize()
         return romaji
+
+    def meaning_capitalized(self):
+        return self.meaning.capitalize()
 
 class Hiragana(models.Model):
     hiragana = models.CharField(max_length=3)

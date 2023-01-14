@@ -11,5 +11,7 @@ router.register('kanatypes', views.KanaTypeView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('home/', views.html_view)
+    path('home/', views.html_view),
+    path('addexamples/', views.addExamples),
+
 ]
